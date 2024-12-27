@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+  <title>Test G Web Component</title>
+  <script src="https://unpkg.com/@antv/g"></script>
+  <script src="https://unpkg.com/@antv/g-canvas"></script>
+  <script src="https://unpkg.com/@antv/g-web-components"></script>
+</head>
+<body>
+    <g-canvas renderer="canvas" width="400" height="400">
+        <g-rect
+            fill="#2f54eb"
+            radius="0 24px 24px"
+            x="12px"
+            y="24px"
+            width="200px"
+            height="50px"
+        >
+            <g-circle fill="#adc6ff" r="16px" cx="25px" cy="25px"></g-circle>
+            <g-text fill="#fff" x="50px" y="20px">我是一段文字</g-text>
+        </g-rect>
+    </g-canvas>
+</body>

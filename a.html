@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/@antv/g"></script>
+    <script src="https://unpkg.com/@antv/g-canvas"></script>
+    <script src="https://unpkg.com/@antv/g-web-components"></script>
+  </head>
+
+  <body>
+    <app-1 class="app"></app-1>
+    <g-canvas
+      renderer="canvas"
+      style="width: 800px; height: 800px"
+      width="400"
+      height="400"
+    >
+      <g-rect
+        fill="#2f54eb"
+        radius="0 24px 24px"
+        x="12px"
+        y="24px"
+        width="200px"
+        height="50px"
+      >
+        <g-circle fill="#adc6ff" r="16px" cx="25px" cy="25px"></g-circle>
+        <g-text fill="#fff" x="50px" y="20px">我是一段文字</g-text>
+      </g-rect>
+    </g-canvas>
+
+    <script>
+      const app = document.querySelector(".app");
+      console.log(app);
+      app.addEventListener("click", (v) => {
+        console.log("click");
+      });
+    </script>
+
+    <template id="temp">
+      <div class="aa">adfasdfaf</div>
+    </template>
+    <script>
+      class App extends HTMLElement {
+        constructor() {
+          super();
+          this.attachShadow({ mode: "open" });
+          this.shadowRoot.innerHTML = document.querySelector("#temp").innerHTML;
+          window.a = this;
+        }
+      }
+      window.customElements.define("app-1", App);
+      
+    </script>
+  </body>
+
+  <script></script>
+</html>
