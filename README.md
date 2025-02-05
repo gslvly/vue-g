@@ -1,1 +1,1 @@
-# Vue Vapor Demo
+# vue-g demo

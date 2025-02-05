@@ -39,7 +39,6 @@ export default defineConfig({
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
-            console.log(tag);
             if (tag === "g-dom") return false;
             if (tag.startsWith("g-")) return true;
           },
