@@ -1,11 +1,4 @@
-import { createVaporApp } from "vue/vapor";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-import "./style.css";
-const create = createVaporApp;
-
-import("./App.vue").then(res => {
-    create(res.default as any).mount("#app");
-})
-
-
-
+createApp(App).mount(document.querySelector("#app")!);
