@@ -47,12 +47,6 @@ const createGApp = async (dom: HTMLDivElement) => {
     enableDirtyRectangleRenderingDebug: false,
     enableDirtyRectangleRendering: true,
   });
-
-  // const plugin = new PluginYoga({});
-  // console.log("ssss");
-
-  // renderer.registerPlugin(plugin);
-  // renderer.registerPlugin(new PluginDrag({}));
   const canvas = new Canvas({
     container: dom,
     width: 1000,
