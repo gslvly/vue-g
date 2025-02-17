@@ -2,8 +2,6 @@ import { defineConfig, Plugin } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import './test'
-
 const cleanSourceMap = (v: boolean) => {
   return {
     name: "cleanSourceMap",
