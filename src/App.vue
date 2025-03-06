@@ -1,5 +1,5 @@
 <template>
-  <div id="dom" ref="dom" style="width: 1000px; height: 1000px"></div>
+  <div id="dom" ref="dom"></div>
   <!-- <test></test>   -->
 </template>
 <script setup lang="ts">
@@ -12,12 +12,28 @@ onMounted(() => {
 });
 </script>
 
-<style>
-#container {
-  height: 100%;
+<style lang="scss">
+#dom {
+  position: relative;
   width: 100%;
+  height: calc(100% - 80px);
+  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
+  .mini-map {
+    position: absolute !important;
+    right: 24px;
+    bottom: 100px;
+  }
 }
+
 canvas {
   background-color: azure;
+}
+.mini-map {
+  canvas {
+    background-color: #fff;
+  }
 }
 </style>

@@ -10,7 +10,7 @@ export const nodeDrag = (
     c = 1;
 
   node.addEventListener("mousedown", (e) => {
-    c = node.getScale()[0];
+    c = node.ownerDocument?.defaultView?.getCamera().getZoom() || 1;
     node.style.zIndex = "100";
     e.stopPropagation();
     x = e.clientX;

@@ -41,11 +41,6 @@ export function patchStyle(el: Element, prev: Style, next: Style): void {
   } else {
     if (isCssString) {
       if (prev !== next) {
-        // #9821
-        const cssVarText = (style as any)[CSS_VAR_TEXT];
-        if (cssVarText) {
-          (next as string) += ";" + cssVarText;
-        }
         style.cssText = next as string;
         hasControlledDisplay = displayRE.test(next);
       }

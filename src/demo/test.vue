@@ -33,7 +33,6 @@ window.data = data;
 const node = manager.getNodeById(
   "BSC-0x3299b40c2a004dd8ceb06ce4a93dce3563368545"
 )!;
-const { x, y } = node;
 // setInterval(() => {
 //   node.x = x + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);
 //   node.y = y + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);
@@ -43,4 +42,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+
+</style>

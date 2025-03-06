@@ -12,6 +12,7 @@
   "dependencies": {
     "@antv/g": "^6.0.12",
     "@antv/g-canvas": "^2.0.11",
+    "@antv/g-image-exporter": "^1.0.32",
     "@antv/g-plugin-dragndrop": "^2.0.30",
     "@antv/g-plugin-yoga": "^2.0.30",
     "@antv/g-web-components": "^2.0.39",

@@ -14,6 +14,7 @@
       style="fill: red; stroke: #f04864"
       :style="{
         r: cfg.size,
+        
       }"
     ></g-circle>
     <g-image
@@ -42,9 +43,9 @@
         })`,
       }"
     ></g-image>
-    <g-dom to="#dom">
+    <!-- <g-dom to="#dom">
       <div>{{ n }}</div>
-    </g-dom>
+    </g-dom> -->
   </g-group>
 </template>
 
@@ -87,7 +88,7 @@ const cfg = computed(() => {
     count: node.isGroup || node.isSmartGroup ? node.children.length : 0,
     countInvert: node.isSmartGroup,
     // countCache: node.isVirtualNode && !showVip && node.cacheEdges && node.cacheEdges.length,
-    image: "/tag-image/" + node.imageName,
+    image:node.imageName && "/tag-image/" + node.imageName,
   };
 });
 
