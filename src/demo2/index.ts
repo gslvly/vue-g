@@ -1,14 +1,11 @@
 import { createApp } from "../custom-render";
 import { Renderer } from "@antv/g-canvas";
-// import { Renderer } from '@antv/g-webgl';
-
 import { Canvas } from "@antv/g";
 import { canvasDrag, canvasZoom } from "./utils/canvas-transform";
 import test from "./test.vue";
 import { createMiniMap } from "./utils/mini-map";
-import { useDomResize } from "./utils/use";
 
-const createGApp = async (dom: HTMLDivElement) => {
+const createGApp = (dom: HTMLDivElement) => {
   const renderer = new Renderer({
     enableDirtyRectangleRenderingDebug: false,
     enableDirtyRectangleRendering: true,
@@ -32,6 +29,7 @@ const createGApp = async (dom: HTMLDivElement) => {
   createMiniMap(canvas, dom);
   createApp(test).mount(canvas);
 
+  window.gCanvas = canvas;
   return canvas;
 };
 

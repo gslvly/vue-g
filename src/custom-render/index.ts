@@ -11,13 +11,14 @@ import {
   HTML,
   Line,
   Path,
+  Element,
 } from "@antv/g";
 
 const ops = {
   ...nodeOps,
 
   createElement: (v, namespace, is, props) => {
-
+    if (!v.startsWith("g-")) return;
     const name = v.slice(2);
 
     if (name === "group") {
@@ -48,10 +49,10 @@ const ops = {
       return new Path(props);
     }
   },
-  createText: () => {
+  createText: (v) => {
     return new DisplayObject({});
   },
-  createComment: () => {
+  createComment: (v) => {
     return new DisplayObject({});
   },
   patchProp,

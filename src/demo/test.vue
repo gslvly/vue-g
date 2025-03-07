@@ -1,11 +1,5 @@
 <template>
   <g-group id="ggg" ref="root">
-    <normalNode
-      v-for="(it, i) in data.nodes"
-      :key="it.id"
-      :node="it"
-      :style="{ zIndex: i }"
-    ></normalNode>
     <normalEdge
       v-for="(it, i) in data.edges"
       :edge="it"
@@ -13,6 +7,12 @@
       :key="it.id"
     >
     </normalEdge>
+    <normalNode
+      v-for="(it, i) in data.nodes"
+      :key="it.id"
+      :node="it"
+      :style="{ zIndex: i + 10000 }"
+    ></normalNode>
   </g-group>
 </template>
 
@@ -42,6 +42,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

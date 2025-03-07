@@ -4,11 +4,14 @@
 </template>
 <script setup lang="ts">
 import { DefineComponent, onMounted, PropType, ref } from "vue";
-import { createGApp } from "./demo";
+import { createGApp } from "./demo2";
 const dom = ref<HTMLDivElement>();
 
 onMounted(() => {
-  createGApp(dom.value!);
+  const graph = createGApp(dom.value!);
+  onMounted(() => {
+    console.log('xxxxxxxxxxxxxxx')
+  })
 });
 </script>
 

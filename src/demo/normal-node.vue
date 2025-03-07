@@ -14,7 +14,6 @@
       style="fill: red; stroke: #f04864"
       :style="{
         r: cfg.size,
-        
       }"
     ></g-circle>
     <g-image
@@ -30,19 +29,19 @@
 
     <g-text v-else :text="cfg.label"></g-text>
 
-    <g-image
-      id="icon"
-      v-for="it in cfg.iconCont"
-      :key="`icon-${it}`"
-      :style="{
-        width: 24,
-        height: 24,
-        src: cfg.icon,
-        transform: `translate(${it * 26 - (cfg.iconCont * 26) / 2},${
-          cfg.size * 0.3
-        })`,
-      }"
-    ></g-image>
+    <flexBox :gap="1">
+      <g-image
+        id="icon"
+        v-for="(it, i) in iconCount"
+        :key="`icon-${it}`"
+        :style="{
+          width: 24 + i * 3,
+          height: 24 + i * 3,
+          src: cfg.icon,
+        }"
+      ></g-image>
+      <g-circle :style="{ fill: 'blue', r: 10 }"></g-circle>
+    </flexBox>
     <!-- <g-dom to="#dom">
       <div>{{ n }}</div>
     </g-dom> -->
@@ -57,21 +56,24 @@ import { Group } from "@antv/g";
 import { nodeDrag } from "./utils/node-drag";
 import icon from "./icons/icon-browser-LANTCH.svg?url";
 import { INode } from "../type";
+import flexBox from "./components/flex-box.vue";
 
 const props = defineProps<{
   node: INode;
 }>();
 let n = ref(0);
 
-const click = () => {
-  console.log(props.node);
-};
+const click = () => {};
+const iconCount = ref((Math.random() * 5) | 0);
+
+setInterval(() => {
+  iconCount.value = (Math.random() * 5) | 0;
+}, 100);
 
 const cfg = computed(() => {
   const node = props.node;
-  const iconCont = (Math.random() * 5) | 0;
+
   return {
-    iconCont,
     size: node.size,
 
     color: "#" + Math.random().toString(16).substring(2, 8),
@@ -88,7 +90,7 @@ const cfg = computed(() => {
     count: node.isGroup || node.isSmartGroup ? node.children.length : 0,
     countInvert: node.isSmartGroup,
     // countCache: node.isVirtualNode && !showVip && node.cacheEdges && node.cacheEdges.length,
-    image:node.imageName && "/tag-image/" + node.imageName,
+    image: node.imageName && "/tag-image/" + node.imageName,
   };
 });
 

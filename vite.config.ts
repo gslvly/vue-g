@@ -33,7 +33,6 @@ export default defineConfig({
       dts: true,
     }),
     Vue({
-     
       template: {
         compilerOptions: {
           isCustomElement: (tag) => {
