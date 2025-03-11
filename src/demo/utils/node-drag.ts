@@ -1,44 +1,57 @@
-import { Group } from "@antv/g";
+import { DisplayObject, Group } from "@antv/g";
+type IEl = DisplayObject & {
+  _onMouseMove: (e: MouseEvent) => void;
+  _onMouseup: (e: MouseEvent) => void;
+};
+export const vDragNode = {
+  mounted: (
+    node: IEl,
+    binding: { arg?: string; value: (v: { x: number; y: number }) => void }
+  ) => {
+    let x = 0,
+      y = 0,
+      s = false,
+      c = 1;
+    const move = binding.value;
+    const zIndex = node.parsedStyle.zIndex || 0;
+    node.addEventListener("mousedown", (e: MouseEvent) => {
+      c = node.ownerDocument?.defaultView?.getCamera().getZoom() || 1;
+      node.style.zIndex = 1000000;
+      e.stopPropagation();
+      x = e.clientX;
+      y = e.clientY;
+      s = true;
+    });
+    node._onMouseMove = (() => {
+      let w = false;
+      let e: MouseEvent;
+      return (v) => {
+        if (!s) return;
 
-export const nodeDrag = (
-  node: Group,
-  move: (v: { x: number; y: number }) => void
-) => {
-  let x = 0,
-    y = 0,
-    s = false,
-    c = 1;
+        e = v;
+        if (w) return;
+        w = true;
+        requestAnimationFrame(() => {
+          move({ x: (e.x - x) / c, y: (e.y - y) / c });
+          x = e.x;
+          y = e.y;
+          w = false;
+        });
+      };
+    })();
 
-  node.addEventListener("mousedown", (e) => {
-    c = node.ownerDocument?.defaultView?.getCamera().getZoom() || 1;
-    node.style.zIndex = "100";
-    e.stopPropagation();
-    x = e.clientX;
-    y = e.clientY;
-    console.log({ x, y });
-    s = true;
-  });
-  document.addEventListener("mousemove", (() => {
-    let w = false;
-    let e: MouseEvent
-    return (v) => {
+    node._onMouseup = () => {
       if (!s) return;
-
-      e = v;
-      if (w) return;
-      w = true;
-      requestAnimationFrame(() => {
-        move({ x: (e.x - x) / c, y: (e.y - y) / c });
-        x = e.x;
-        y = e.y;
-        w = false
-      });
+      s = false;
+      node.style.zIndex = zIndex;
     };
-  })());
 
-  document.addEventListener("mouseup", () => {
-    if (!s) return;
-    s = false;
-    node.style.zIndex = 1;
-  });
+    document.addEventListener("mousemove", node._onMouseMove);
+
+    document.addEventListener("mouseup", node._onMouseup);
+  },
+  unmounted(node: IEl) {
+    document.removeEventListener("mousemove", node._onMouseMove);
+    document.removeEventListener("mouseup", node._onMouseup);
+  },
 };

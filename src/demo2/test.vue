@@ -1,35 +1,37 @@
 <template>
-  <g-group id="ggg" ref="root" style="transform: translate(300, 300)">
-    
-    <flexBox :gap="1" style="transform: translateX(10);">
-      <g-circle
-        :style="{ fill: 'blue', r: 100 + Math.random() * 5 }"
-      ></g-circle>
-      <g-rect :style="{ width: 40, height: 20, fill: 'green' ,zIndex:100}"></g-rect>
-      <!-- <g-rect
+  <g-group
+    id="ggg"
+    ref="root"
+    @mouseenter="show = true"
+    @mouseleave="show = false"
+    style="transform: translate(300, 300)"
+  >
+    <g-circle :style="{ fill: 'red', r: 10, zIndex: 1000 }"></g-circle>
+    <flexBox :gap="1" direction="column">
+      <g-circle :style="{ fill: 'blue', r: 100 }"></g-circle>
+      <g-rect
+        :style="{ width: 40, height: 20, fill: 'green', zIndex: 100 }"
+      ></g-rect>
+      <g-rect
         v-if="show"
         :style="{
           width: 40,
           height: 20,
           fill: 'green',
-          transform: `translate(50,50)`,
         }"
-      ></g-rect> -->
+      ></g-rect>
       <g-text
         :style="{
           text: '什么是啥啊',
           fill: '#eee',
-   
         }"
       ></g-text>
-     
     </flexBox>
   </g-group>
 </template>
 
 <script lang="ts" setup>
-import flexBox from "./components/flex-box.vue";
-import { translate } from "./utils/math";
+import flexBox from "../demo/components/flex-box.vue";
 const show = ref(false);
 // setInterval(() => {
 //   node.x = x + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);

@@ -1,10 +1,9 @@
 <template>
   <div id="dom" ref="dom"></div>
-  <!-- <test></test>   -->
 </template>
 <script setup lang="ts">
 import { DefineComponent, onMounted, PropType, ref } from "vue";
-import { createGApp } from "./demo2";
+import { createGApp } from "./demo";
 const dom = ref<HTMLDivElement>();
 
 onMounted(() => {

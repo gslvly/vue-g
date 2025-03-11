@@ -5,40 +5,96 @@
 </template>
 
 <script lang="ts" setup>
-import { type Group } from "@antv/g";
+/**相当于align-items:center;flex-wrap:no-wrap; */
+defineOptions({ name: "g-flexbox" });
+
+import { DisplayObject, type Group } from "@antv/g";
 import { sumBy } from "lodash-es";
 
-defineOptions({ name: "g-flexbox" });
-const props = defineProps<{
-    maxWidth?: number;
-  //   maxHeight: number;
-  //   direction: "column" | "row";
-  //   alignItems: "start" | "end" | "center";
-  gap: number;
-}>();
+const props = withDefaults(
+  defineProps<{
+    direction?: "column" | "row";
+    gap?: number;
+  }>(),
+  {
+    direction: "row",
+    gap: 0,
+  }
+);
+
 const group = ref<InstanceType<typeof Group>>();
-const update = () => {
-  const children = group.value?.children;
+
+const getChildren = () => {
+  if (!group.value) return;
+
+  const children = group.value?.children
+    ?.map((it) => {
+      it.setAttribute("transform", "none");
+
+      const rectangle = (it as DisplayObject).getBBox();
+      if (rectangle.width) {
+        return [it as DisplayObject, rectangle] as const;
+      }
+    })
+    .filter(Boolean);
+
   if (!children?.length) return;
+  return children;
+};
 
-  const sum = sumBy(children, (it) => it.getBoundingClientRect().width);
+const updateRow = () => {
+  const children = getChildren();
+  if (!children) return;
+  const groupPos = group.value!.getPosition()!;
+  const sum = sumBy(children, (it) => it![1].width);
+
   const all = sum + props.gap * (children.length - 1);
-  let start = -all / 2;
-
+  const start = -all / 2;
+  let preX = start;
   children.forEach((it) => {
-    it.style.transform = `translate(${start})` ;
-    // it.style.y = 0;
-    start += it.getBoundingClientRect().width + props.gap;
-    // console.log(start)
+    const [node, rect] = it!;
+
+    // 距离中心点
+    const dx = rect.x - groupPos[0];
+    const dy = rect.y - groupPos[1];
+
+    node.style.transform = `translate(${preX - dx},${-rect.height / 2 - dy})`;
+    preX += rect.width + props.gap;
   });
 };
 
+const updateColumn = () => {
+  const info = getChildren();
+  if (!info) return;
+  const children = info;
+  const groupPos = group.value!.getPosition()!;
+
+  const sum = sumBy(children, (it) => it![1].height);
+
+  const all = sum + props.gap * (children.length - 1);
+  const start = -all / 2;
+  let preY = start;
+  children.forEach((it) => {
+    const [node, rect] = it!;
+
+    // 距离中心点
+    const dx = rect.x - groupPos[0];
+    const dy = rect.y - groupPos[1];
+
+    node.style.transform = `translate(${-rect.width / 2 - dx},${preY - dy})`;
+    preY += rect.height + props.gap;
+  });
+};
+
+const update = () => {
+  if (props.direction === "row") updateRow();
+  else updateColumn();
+};
+
 onUpdated(() => {
-  console.log(2);
   update();
 });
 onMounted(() => {
-  console.log(1);
   update();
 });
 </script>

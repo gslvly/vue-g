@@ -1,9 +1,9 @@
 import { createApp } from "../custom-render";
 import { Renderer } from "@antv/g-canvas";
 import { Canvas } from "@antv/g";
-import { canvasDrag, canvasZoom } from "./utils/canvas-transform";
 import test from "./test.vue";
-import { createMiniMap } from "./utils/mini-map";
+import { canvasDrag, canvasZoom } from "../demo/utils/canvas-transform";
+import { createMiniMap } from "../demo/utils/mini-map";
 
 const createGApp = (dom: HTMLDivElement) => {
   const renderer = new Renderer({

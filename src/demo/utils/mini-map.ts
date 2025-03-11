@@ -1,6 +1,6 @@
 import { Canvas, CanvasEvent, RenderReason } from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
-import { debounce } from "lodash-es";
+import { debounce, last } from "lodash-es";
 
 /**需要从外部updateCanvas小地图 */
 export const createMiniMap = (
@@ -54,7 +54,7 @@ export const createMiniMap = (
         image.src = res;
       });
     minimapCanvas.destroy(true);
-    genRect()
+    genRect();
   }, 500);
 
   const genRect = () => {
@@ -85,40 +85,50 @@ export const createMiniMap = (
   // 优化拖拽交互
   let isDragging = false;
   let lastPos = { x: 0, y: 0 };
-
+  let maxLeft = 0;
+  let maxTop = 0;
   rect.addEventListener("mousedown", (e) => {
     isDragging = true;
     lastPos = { x: e.clientX, y: e.clientY };
+    maxLeft = opt.width - rect.offsetWidth;
+    maxTop = opt.height - rect.offsetHeight;
   });
 
   const onMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
+    let dx = e.clientX - lastPos.x;
+    let dy = e.clientY - lastPos.y;
+    // 4周距离
+    let right = maxLeft - rect.offsetLeft;
+    let left = rect.offsetLeft;
+    let top = rect.offsetTop;
+    let bottom = maxTop - rect.offsetTop;
+    // 大图拖动后，小图显示的rect一部分可能在外面
+    if (dx > 0) {
+      // 往右
+      dx = Math.max(0, Math.min(right, dx));
+    } else {
+      // 往左
+      dx = Math.min(Math.max(-left, dx), 0);
+    }
 
-    const dx = (e.clientX - lastPos.x) / scaleRatio;
-    const dy = (e.clientY - lastPos.y) / scaleRatio;
+    if (dy > 0) {
+      dy = Math.max(0, Math.min(bottom, dy));
+    } else {
+      dy = Math.min(Math.max(-top, dy), 0);
+    }
 
-    gCanvas.getCamera().pan(dx, dy);
-    lastPos = { x: e.clientX, y: e.clientY };
+    lastPos.x += dx;
+    lastPos.y += dy;
+    gCanvas.getCamera().pan(dx / scaleRatio, dy / scaleRatio);
   };
 
   const onMouseUp = () => {
     isDragging = false;
   };
 
-  minimap.addEventListener("mousemove", onMouseMove);
-  minimap.addEventListener("mouseup", onMouseUp);
-  minimap.addEventListener("mouseleave", onMouseUp);
-
-  // 点击小图快速定位
-  minimap.addEventListener("click", (e) => {
-    const v = rect.getBoundingClientRect();
-
-    const x = (e.clientX - v.left - v.width / 2) / scaleRatio;
-    const y = (e.clientY - v.top - v.height / 2) / scaleRatio;
-
-    gCanvas.getCamera().pan(x, y);
-  });
-
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 
   gCanvas.getRenderingService().hooks.endFrame.tap("", () => {
     // console.log("anter");
@@ -136,6 +146,8 @@ export const createMiniMap = (
   return {
     destroy: () => {
       minimap.remove();
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
     },
   };
 };

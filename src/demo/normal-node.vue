@@ -1,13 +1,13 @@
 <template>
   <g-group
-    @pointerover="hovered = true"
-    @pointerout="hovered = false"
+    direction="column"
     ref="g"
     :id="node.id"
     :style="{
       transform: `translate(${node.x},${node.y})`,
       height: cfg.size,
     }"
+    v-drag-node="drag"
     @click="click"
   >
     <g-circle
@@ -15,7 +15,21 @@
       :style="{
         r: cfg.size,
       }"
-    ></g-circle>
+    >
+      <flexBox :gap="1">
+        <g-image
+          id="icon"
+          v-for="(it, i) in iconCount"
+          :key="`icon-${it}`"
+          :style="{
+            width: 16 + i * 3,
+            height: 16 + i * 3,
+            src: cfg.icon,
+          }"
+        ></g-image>
+        <g-circle :style="{ fill: 'blue', r: 10 }"></g-circle>
+      </flexBox>
+    </g-circle>
     <g-image
       id="image"
       :style="{
@@ -28,47 +42,29 @@
     ></g-image>
 
     <g-text v-else :text="cfg.label"></g-text>
-
-    <flexBox :gap="1">
-      <g-image
-        id="icon"
-        v-for="(it, i) in iconCount"
-        :key="`icon-${it}`"
-        :style="{
-          width: 24 + i * 3,
-          height: 24 + i * 3,
-          src: cfg.icon,
-        }"
-      ></g-image>
-      <g-circle :style="{ fill: 'blue', r: 10 }"></g-circle>
-    </flexBox>
-    <!-- <g-dom to="#dom">
-      <div>{{ n }}</div>
-    </g-dom> -->
   </g-group>
 </template>
 
 <script lang="ts" setup name="normalNode">
 import { ref, computed } from "vue";
 import gDom from "../custom-render/g-dom";
-import { Group } from "@antv/g";
+import { DisplayObject, Group } from "@antv/g";
 
-import { nodeDrag } from "./utils/node-drag";
 import icon from "./icons/icon-browser-LANTCH.svg?url";
 import { INode } from "../type";
 import flexBox from "./components/flex-box.vue";
+import { vDragNode } from "./utils/node-drag";
 
 const props = defineProps<{
   node: INode;
 }>();
 let n = ref(0);
+const g = shallowRef<Group>();
 
-const click = () => {};
+const click = (v) => {
+  
+};
 const iconCount = ref((Math.random() * 5) | 0);
-
-setInterval(() => {
-  iconCount.value = (Math.random() * 5) | 0;
-}, 100);
 
 const cfg = computed(() => {
   const node = props.node;
@@ -94,17 +90,11 @@ const cfg = computed(() => {
   };
 });
 
-const g = shallowRef<Group>();
 
-onMounted(() => {
-  const group = g.value!;
-  nodeDrag(group, (v) => {
-    props.node.x += v.x;
-    props.node.y += v.y;
-  });
-});
-
-const hovered = ref(false);
+const drag = (v: { x: number; y: number }) => {
+  props.node.x += v.x;
+  props.node.y += v.y;
+};
 </script>
 
 <style>

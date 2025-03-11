@@ -1,17 +1,11 @@
 <template>
   <g-group id="ggg" ref="root">
-    <normalEdge
-      v-for="(it, i) in data.edges"
-      :edge="it"
-      :style="{ zIndex: i }"
-      :key="it.id"
-    >
+    <normalEdge v-for="(it, i) in data.edges" :edge="it" :key="it.id">
     </normalEdge>
     <normalNode
       v-for="(it, i) in data.nodes"
       :key="it.id"
       :node="it"
-      :style="{ zIndex: i + 10000 }"
     ></normalNode>
   </g-group>
 </template>
