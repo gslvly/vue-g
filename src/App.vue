@@ -1,16 +1,32 @@
 <template>
+  {{ ifs }}
   <div id="dom" ref="dom"></div>
 </template>
 <script setup lang="ts">
 import { DefineComponent, onMounted, PropType, ref } from "vue";
 import { createGApp } from "./demo";
 const dom = ref<HTMLDivElement>();
-
+const ifs = ref(0);
+let last = performance.now();
+let n = 0;
+const start = () => {
+  n++;
+  if (n >= 30) {
+    const now = performance.now();
+    ifs.value = n * 1000/ (now - last);
+    n = 0;
+    last = now;
+  }
+  requestAnimationFrame(() => {
+    start();
+  });
+};
+start()
 onMounted(() => {
   const graph = createGApp(dom.value!);
   onMounted(() => {
-    console.log('xxxxxxxxxxxxxxx')
-  })
+    console.log("xxxxxxxxxxxxxxx");
+  });
 });
 </script>
 

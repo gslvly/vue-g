@@ -51,7 +51,6 @@ import gDom from "./g-dom.vue";
 
 import {
   normalVec,
-  projection,
   rotate,
   rotateRadian,
   toMat4,
