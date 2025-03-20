@@ -4,6 +4,7 @@ import { Canvas } from "@antv/g";
 import test from "./test.vue";
 import { canvasDrag, canvasZoom } from "../demo/utils/canvas-transform";
 import { createMiniMap } from "../demo/utils/mini-map";
+import { createBrushSelect } from "../demo/utils/brush-select";
 
 const createGApp = (dom: HTMLDivElement) => {
   const renderer = new Renderer({
@@ -27,6 +28,7 @@ const createGApp = (dom: HTMLDivElement) => {
   canvasDrag(canvas);
   canvasZoom(canvas);
   createMiniMap(canvas, dom);
+  createBrushSelect(canvas)
   createApp(test).mount(canvas);
 
   window.gCanvas = canvas;

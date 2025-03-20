@@ -7,6 +7,7 @@ import { canvasDrag, canvasZoom } from "./utils/canvas-transform";
 import test from "./test.vue";
 import { createMiniMap } from "./utils/mini-map";
 import { useDomResize } from "./utils/use";
+import { createBrushSelect } from "./utils/brush-select";
 
 const createGApp = async (dom: HTMLDivElement) => {
   const renderer = new Renderer({
@@ -30,6 +31,7 @@ const createGApp = async (dom: HTMLDivElement) => {
   canvasDrag(canvas);
   canvasZoom(canvas);
   createMiniMap(canvas, dom);
+  createBrushSelect(canvas)
   createApp(test).mount(canvas);
 
   return canvas;

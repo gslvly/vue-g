@@ -1,4 +1,4 @@
-import { CanvasEvent, type Canvas } from "@antv/g";
+import { CanvasEvent, type Canvas} from "@antv/g";
 export const canvasZoom = (
   canvas: Canvas,
   { min, max } = { min: 0.01, max: 10 }
