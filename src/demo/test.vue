@@ -21,6 +21,16 @@ data.nodes.forEach((it) => {
   it.size = (Math.random() * 20) | (0 + 20);
 });
 window.data = data;
+
+const start = () => {
+ 
+  requestAnimationFrame(start);
+  data.nodes.forEach((it) => {
+    it.x += (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5;
+    it.y += (Math.random() > 0.5 ? 1 : -1) * Math.random() * 5;
+  });
+};
+start()
 const node = manager.getNodeById(
   "BSC-0x3299b40c2a004dd8ceb06ce4a93dce3563368545"
 )!;
@@ -28,8 +38,7 @@ const node = manager.getNodeById(
 //   node.x = x + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);
 //   node.y = y + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);
 // });
-onMounted(() => {
-});
+onMounted(() => {});
 </script>
 
 <style lang="scss"></style>

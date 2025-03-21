@@ -1,9 +1,8 @@
-import { NOOP, hyphenate, isArray, isFunction } from "@vue/shared";
+import { hyphenate, isArray } from "@vue/shared";
 import {
   type ComponentInternalInstance,
   ErrorCodes,
   callWithAsyncErrorHandling,
-  warn,
 } from "@vue/runtime-core";
 
 interface Invoker extends EventListener {
@@ -118,17 +117,6 @@ function createInvoker(
   invoker.value = initialValue;
   invoker.attached = getNow();
   return invoker;
-}
-
-function sanitizeEventValue(value: unknown, propName: string): EventValue {
-  if (isFunction(value) || isArray(value)) {
-    return value as EventValue;
-  }
-  warn(
-    `Wrong type passed as event handler to ${propName} - did you forget @ or : ` +
-      `in front of your prop?\nExpected function or array of functions, received type ${typeof value}.`
-  );
-  return NOOP;
 }
 
 function patchStopImmediatePropagation(

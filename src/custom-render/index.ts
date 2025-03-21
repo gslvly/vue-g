@@ -11,7 +11,6 @@ import {
   HTML,
   Line,
   Path,
-  Element,
 } from "@antv/g";
 
 const ops = {

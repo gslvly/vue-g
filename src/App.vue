@@ -3,7 +3,7 @@
   <div id="dom" ref="dom"></div>
 </template>
 <script setup lang="ts">
-import { DefineComponent, onMounted, PropType, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { createGApp } from "./demo";
 import { Canvas } from "@antv/g";
 const dom = ref<HTMLDivElement>();
@@ -27,7 +27,7 @@ let canvas: Canvas;
 onMounted(() => {
   canvas = createGApp(dom.value!);
   onBeforeUnmount(() => {
-    console.log('destroy')
+    console.log("destroy");
     canvas.destroy();
   });
 });
