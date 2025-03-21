@@ -1,11 +1,11 @@
-import { CanvasEvent, type Canvas} from "@antv/g";
+import { CanvasEvent, FederatedMouseEvent, FederatedWheelEvent, type Canvas} from "@antv/g";
 export const canvasZoom = (
   canvas: Canvas,
   { min, max } = { min: 0.01, max: 10 }
 ) => {
   const camera = canvas.getCamera();
   const zoom = ref(1);
-  canvas.addEventListener("wheel", (e) => {
+  canvas.addEventListener("wheel", (e:FederatedWheelEvent) => {
     zoom.value *= e.deltaY >= 0 ? 0.9 : 1.1;
     if (zoom.value < min) {
       zoom.value = min;
@@ -37,7 +37,8 @@ export const canvasDrag = (gCanvas: Canvas) => {
     y = 0,
     s = false;
 
-  gCanvas.addEventListener("mousedown", (e: MouseEvent) => {
+  gCanvas.addEventListener("mousedown", (e: FederatedMouseEvent) => {
+    if(e.shiftKey) return
     x = e.clientX;
     y = e.clientY;
     s = true;

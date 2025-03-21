@@ -1,4 +1,4 @@
-import { DisplayObject, Group } from "@antv/g";
+import { DisplayObject, FederatedMouseEvent, Group } from "@antv/g";
 type IEl = DisplayObject & {
   _onMouseMove: (e: MouseEvent) => void;
   _onMouseup: (e: MouseEvent) => void;
@@ -14,7 +14,7 @@ export const vDragNode = {
       c = 1;
     const move = binding.value;
     const zIndex = node.parsedStyle.zIndex || 0;
-    node.addEventListener("mousedown", (e: MouseEvent) => {
+    node.addEventListener("mousedown", (e: FederatedMouseEvent) => {
       c = node.ownerDocument?.defaultView?.getCamera().getZoom() || 1;
       node.style.zIndex = 1000000;
       e.stopPropagation();
@@ -24,7 +24,7 @@ export const vDragNode = {
     });
     node._onMouseMove = (() => {
       let w = false;
-      let e: MouseEvent;
+      let e: FederatedMouseEvent;
       return (v) => {
         if (!s) return;
 

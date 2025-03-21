@@ -7,6 +7,7 @@
       transform: `translate(${node.x},${node.y})`,
       height: cfg.size,
     }"
+    brush-select
     v-drag-node="drag"
     @click="click"
   >
@@ -61,9 +62,7 @@ const props = defineProps<{
 let n = ref(0);
 const g = shallowRef<Group>();
 
-const click = (v) => {
-  
-};
+const click = (v) => {};
 const iconCount = ref((Math.random() * 5) | 0);
 
 const cfg = computed(() => {
@@ -89,7 +88,6 @@ const cfg = computed(() => {
     image: node.imageName && "/tag-image/" + node.imageName,
   };
 });
-
 
 const drag = (v: { x: number; y: number }) => {
   props.node.x += v.x;

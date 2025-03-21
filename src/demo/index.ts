@@ -31,9 +31,12 @@ const createGApp = async (dom: HTMLDivElement) => {
   canvasDrag(canvas);
   canvasZoom(canvas);
   createMiniMap(canvas, dom);
-  createBrushSelect(canvas)
+  const brushSelect = createBrushSelect(canvas, {
+    filter: (v) => v.hasAttribute("brush-select"),
+  });
+  brushSelect.onSelected((v) => {});
   createApp(test).mount(canvas);
-
+  window.g = canvas;
   return canvas;
 };
 
