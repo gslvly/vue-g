@@ -1,42 +1,43 @@
 import { createApp } from "../custom-render";
 import { Renderer } from "@antv/g-canvas";
-// import { Renderer } from '@antv/g-webgl';
 
 import { Canvas } from "@antv/g";
 import { canvasDrag, canvasZoom } from "./utils/canvas-transform";
 import test from "./test.vue";
 import { createMiniMap } from "./utils/mini-map";
-import { useDomResize } from "./utils/use";
 import { createBrushSelect } from "./utils/brush-select";
+import { preventContextMenu } from "./utils/prevent-context";
+const createGApp =  (dom: HTMLDivElement) => {
+  const renderer = new Renderer();
 
-const createGApp = async (dom: HTMLDivElement) => {
-  const renderer = new Renderer({
-    enableDirtyRectangleRenderingDebug: false,
-    enableDirtyRectangleRendering: true,
-  });
-
-  // const plugin = new PluginYoga({});
-  // console.log("ssss");
-
-  // renderer.registerPlugin(plugin);
   // renderer.registerPlugin(new PluginDrag({}));
   const { width, height } = dom.getBoundingClientRect();
+ 
   const canvas = new Canvas({
     container: dom,
     width: width,
     height: height,
     renderer,
   });
+  // if(import.meta.hot) {
+  //   import.meta.hot.data.canvas?.destroy()
+  //   import.meta.hot.data.canvas = canvas
+  // }
+  
 
   canvasDrag(canvas);
   canvasZoom(canvas);
   createMiniMap(canvas, dom);
+  preventContextMenu(canvas)
+  
   const brushSelect = createBrushSelect(canvas, {
     filter: (v) => v.hasAttribute("brush-select"),
   });
-  brushSelect.onSelected((v) => {});
+  // brushSelect.onSelected((v) => {});
   createApp(test).mount(canvas);
   window.g = canvas;
+
+  
   return canvas;
 };
 

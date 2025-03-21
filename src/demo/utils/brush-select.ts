@@ -1,7 +1,6 @@
 import {
   Canvas,
   DisplayObject,
-  ICanvas,
   FederatedMouseEvent,
   CanvasEvent,
 } from "@antv/g";

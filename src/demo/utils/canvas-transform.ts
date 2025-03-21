@@ -1,11 +1,26 @@
-import { CanvasEvent, FederatedMouseEvent, FederatedWheelEvent, type Canvas} from "@antv/g";
+import {
+  CanvasEvent,
+  FederatedMouseEvent,
+  FederatedWheelEvent,
+  type Canvas,
+} from "@antv/g";
+   // console.log({
+    //   client: [e.clientX, e.clientY], // 相当于页面
+    //   page: [e.pageX, e.pageY], // 相当于页面
+    //   screen: [e.screenX, e.screenY], // 相当于屏幕
+    //   canvas: [e.canvasX, e.canvasY], // 世界坐标，不受相机影响
+    //   viewPoint: [e.viewportX, e.viewportY], // canvas 左上角为原点：（0，0）
+    //   target: e.target,
+    // });
+
+
 export const canvasZoom = (
   canvas: Canvas,
   { min, max } = { min: 0.01, max: 10 }
 ) => {
   const camera = canvas.getCamera();
   const zoom = ref(1);
-  canvas.addEventListener("wheel", (e:FederatedWheelEvent) => {
+  canvas.addEventListener("wheel", (e: FederatedWheelEvent) => {
     zoom.value *= e.deltaY >= 0 ? 0.9 : 1.1;
     if (zoom.value < min) {
       zoom.value = min;
@@ -38,7 +53,7 @@ export const canvasDrag = (gCanvas: Canvas) => {
     s = false;
 
   gCanvas.addEventListener("mousedown", (e: FederatedMouseEvent) => {
-    if(e.shiftKey) return
+    if (e.shiftKey) return;
     x = e.clientX;
     y = e.clientY;
     s = true;
@@ -50,9 +65,7 @@ export const canvasDrag = (gCanvas: Canvas) => {
     //   viewPoint: [e.viewportX, e.viewportY], // canvas 左上角为原点：（0，0）
     //   target: e.target,
     // });
-
   });
-
 
   const move = (e: MouseEvent) => {
     if (!s) return;
@@ -69,7 +82,7 @@ export const canvasDrag = (gCanvas: Canvas) => {
   window.addEventListener("mousemove", move);
   window.addEventListener("mouseup", mouseup);
   gCanvas.addEventListener(CanvasEvent.BEFORE_DESTROY, () => {
-    window.removeEventListener('mousemove', move)
-    window.removeEventListener('mouseup', mouseup)
+    window.removeEventListener("mousemove", move);
+    window.removeEventListener("mouseup", mouseup);
   });
 };

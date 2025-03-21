@@ -9,6 +9,7 @@
     }"
     brush-select
     v-drag-node="drag"
+    @rightup="contextmenu"
     @click="click"
   >
     <g-circle
@@ -48,8 +49,7 @@
 
 <script lang="ts" setup name="normalNode">
 import { ref, computed } from "vue";
-import gDom from "../custom-render/g-dom";
-import { DisplayObject, Group } from "@antv/g";
+import { FederatedMouseEvent, Group } from "@antv/g";
 
 import icon from "./icons/icon-browser-LANTCH.svg?url";
 import { INode } from "../type";
@@ -59,7 +59,6 @@ import { vDragNode } from "./utils/node-drag";
 const props = defineProps<{
   node: INode;
 }>();
-let n = ref(0);
 const g = shallowRef<Group>();
 
 const click = (v) => {};
@@ -92,6 +91,10 @@ const cfg = computed(() => {
 const drag = (v: { x: number; y: number }) => {
   props.node.x += v.x;
   props.node.y += v.y;
+};
+
+const contextmenu = (e: FederatedMouseEvent) => {
+  console.log("xxx");
 };
 </script>
 

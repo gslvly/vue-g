@@ -1,13 +1,11 @@
 <template>
-  <g-group id="ggg" ref="root">
-    <normalEdge v-for="(it, i) in data.edges" :edge="it" :key="it.id">
-    </normalEdge>
-    <normalNode
-      v-for="(it, i) in data.nodes"
-      :key="it.id"
-      :node="it"
-    ></normalNode>
-  </g-group>
+  <normalEdge v-for="(it, i) in data.edges" :edge="it" :key="it.id">
+  </normalEdge>
+  <normalNode
+    v-for="(it, i) in data.nodes"
+    :key="it.id"
+    :node="it"
+  ></normalNode>
 </template>
 
 <script lang="ts" setup>
@@ -19,7 +17,6 @@ import { createDataManager } from "./dataManager";
 
 const manager = createDataManager(obj);
 const data = manager.data;
-const root = shallowRef<Group>();
 data.nodes.forEach((it) => {
   it.size = (Math.random() * 20) | (0 + 20);
 });
@@ -32,7 +29,6 @@ const node = manager.getNodeById(
 //   node.y = y + Math.random() * 800 * (Math.random() > 0.5 ? 1 : -1);
 // });
 onMounted(() => {
-  const group = root.value!;
 });
 </script>
 

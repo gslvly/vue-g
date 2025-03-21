@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { DefineComponent, onMounted, PropType, ref } from "vue";
 import { createGApp } from "./demo";
+import { Canvas } from "@antv/g";
 const dom = ref<HTMLDivElement>();
 const ifs = ref(0);
 let last = performance.now();
@@ -13,7 +14,7 @@ const start = () => {
   n++;
   if (n >= 30) {
     const now = performance.now();
-    ifs.value = n * 1000/ (now - last);
+    ifs.value = (n * 1000) / (now - last);
     n = 0;
     last = now;
   }
@@ -21,11 +22,13 @@ const start = () => {
     start();
   });
 };
-start()
+start();
+let canvas: Canvas;
 onMounted(() => {
-  const graph = createGApp(dom.value!);
-  onMounted(() => {
-    console.log("xxxxxxxxxxxxxxx");
+  canvas = createGApp(dom.value!);
+  onBeforeUnmount(() => {
+    console.log('destroy')
+    canvas.destroy();
   });
 });
 </script>

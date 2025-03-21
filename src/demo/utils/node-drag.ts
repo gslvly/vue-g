@@ -13,6 +13,7 @@ export const vDragNode = {
       s = false,
       c = 1;
     const move = binding.value;
+    
     const zIndex = node.parsedStyle.zIndex || 0;
     node.addEventListener("mousedown", (e: FederatedMouseEvent) => {
       c = node.ownerDocument?.defaultView?.getCamera().getZoom() || 1;
@@ -24,7 +25,7 @@ export const vDragNode = {
     });
     node._onMouseMove = (() => {
       let w = false;
-      let e: FederatedMouseEvent;
+      let e: MouseEvent;
       return (v) => {
         if (!s) return;
 
@@ -51,6 +52,7 @@ export const vDragNode = {
     document.addEventListener("mouseup", node._onMouseup);
   },
   unmounted(node: IEl) {
+    console.log('upmounted')
     document.removeEventListener("mousemove", node._onMouseMove);
     document.removeEventListener("mouseup", node._onMouseup);
   },
