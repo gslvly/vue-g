@@ -1,4 +1,4 @@
-import { createRenderer } from "@vue/runtime-core";
+import { createRenderer } from "vue";
 import { nodeOps } from "./nodeOps";
 import { patchProp } from "./patchProp";
 import {
@@ -11,12 +11,13 @@ import {
   HTML,
   Line,
   Path,
+  DisplayObjectConfig,
 } from "@antv/g";
 
 const ops = {
   ...nodeOps,
 
-  createElement: (v, namespace, is, props) => {
+  createElement: (v:string, namespace:string, is:string, props:DisplayObjectConfig<any>) => {
     if (!v.startsWith("g-")) return;
     const name = v.slice(2);
 

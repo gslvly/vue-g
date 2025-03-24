@@ -1,18 +1,9 @@
-import { isArray, isString } from "@vue/shared";
-import {
-  type VShowElement,
-  vShowHidden,
-  vShowOriginalDisplay,
-} from "../directives/vShow";
-
+import { isArray, isString } from "../share";
 type Style = string | Record<string, string | string[]> | null;
-
-const displayRE = /(^|;)\s*display\s*:/;
 
 export function patchStyle(el: Element, prev: Style, next: Style): void {
   const style = (el as HTMLElement).style;
   const isCssString = isString(next);
-  let hasControlledDisplay = false;
   if (next && !isCssString) {
     if (prev) {
       if (!isString(prev)) {
@@ -31,28 +22,15 @@ export function patchStyle(el: Element, prev: Style, next: Style): void {
       }
     }
     for (const key in next) {
-      if (key === "display") {
-        hasControlledDisplay = true;
-      }
       setStyle(style, key, next[key]);
     }
   } else {
     if (isCssString) {
       if (prev !== next) {
         style.cssText = next as string;
-        hasControlledDisplay = displayRE.test(next);
       }
     } else if (prev) {
       el.removeAttribute("style");
-    }
-  }
-  // indicates the element also has `v-show`.
-  if (vShowOriginalDisplay in el) {
-    // make v-show respect the current v-bind style display when shown
-    el[vShowOriginalDisplay] = hasControlledDisplay ? style.display : "";
-    // if v-show is in hidden state, v-show has higher priority
-    if ((el as VShowElement)[vShowHidden]) {
-      style.display = "none";
     }
   }
 }

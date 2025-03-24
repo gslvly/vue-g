@@ -1,9 +1,10 @@
-import { hyphenate, isArray } from "@vue/shared";
+import { isArray, hyphenate } from "../share";
+
 import {
   type ComponentInternalInstance,
   ErrorCodes,
   callWithAsyncErrorHandling,
-} from "@vue/runtime-core";
+} from "vue";
 
 interface Invoker extends EventListener {
   value: EventValue;
