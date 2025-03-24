@@ -5,12 +5,6 @@ import { patchEvent } from "./modules/events";
 import { isModelListener, isOn } from "./share";
 import type { RendererOptions } from "vue";
 
-const isNativeOn = (key: string) =>
-  key.charCodeAt(0) === 111 /* o */ &&
-  key.charCodeAt(1) === 110 /* n */ &&
-  // lowercase letter
-  key.charCodeAt(2) > 96 &&
-  key.charCodeAt(2) < 123;
 
 type DOMRendererOptions = RendererOptions<Node, Element>;
 
