@@ -5,7 +5,6 @@ import { patchEvent } from "./modules/events";
 import { isModelListener, isOn } from "./share";
 import type { RendererOptions } from "vue";
 
-
 type DOMRendererOptions = RendererOptions<Node, Element>;
 
 export const patchProp: DOMRendererOptions["patchProp"] = (
@@ -13,6 +12,7 @@ export const patchProp: DOMRendererOptions["patchProp"] = (
   key,
   prevValue,
   nextValue,
+  namespace,
   parentComponent
 ) => {
   if (key === "class") {
